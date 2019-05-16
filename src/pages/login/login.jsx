@@ -1,16 +1,26 @@
 import React,{Component} from 'react'
-import { Form, Icon, Input, Button } from 'antd';
+import { Form, Icon, Input, Button, message } from 'antd';
 import './login.less'
-import logo from './images/logo.png'
-
-
-
+import logo from '../../assets/imegs/logo.png'
+import {reqLogin} from '../../api'
+import userdata from '../../utils/memoryUtils'
+import storageUtils from'../../utils/storageUtils'
 class  Login extends Component{
     handleSubmit = e => {
         e.preventDefault();
-        this.props.form.validateFields((err, values) => {
+        this.props.form.validateFields(async (err, values) => {
             if (!err) {
-                alert('欢迎你'+values.username)
+                const {username,password}=values
+                const result  =await reqLogin(username,password)
+                const user=result.data
+                if(result.status===0){
+                    userdata.user=user
+                    console.log(userdata.user)
+                    storageUtils.saveUser(user)
+                    this.props.history.replace('/')
+                }else if(result.status===1){
+                    message.error('你的账户或密码输入有误')
+                }
             }else{alert('失败')}
         });
     };
