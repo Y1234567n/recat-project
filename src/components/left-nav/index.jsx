@@ -5,36 +5,16 @@ import React, {Component} from 'react'
 import {Link, withRouter} from 'react-router-dom'
 import './index.less'
 import logo from '../../assets/imegs/logo.png'
-import {Menu, Icon, Button} from 'antd';
+import {Menu, Icon} from 'antd';
 import menuConfig from '../../config/menuConfig'
 
 const SubMenu = Menu.SubMenu;
-export default class LeftNav  extends Component {
-// {
-//     title: '首页', // 菜单标题名称
-//     key: '/home', // 对应的path
-//     icon: 'home', // 图标名称
-// }
-// {
-//     title: '商品',
-//     key: '/products',
-//     icon: 'appstore',
-//     children: [ // 子菜单列表
-//         {
-//             title: '品类管理',
-//             key: '/category',
-//             icon: 'bars'
-//         },
-//         {
-//             title: '商品管理',
-//             key: '/product',
-//             icon: 'tool'
-//         },
-//         ]
+class LeftNav  extends Component {
     getMenuNodes=(menuConfig)=>{
-        return menuConfig.reduce((rop,item)=>{
+        const path=this.props.location.pathname
+        return menuConfig.reduce((pre,item)=>{
             if(!item.children){
-                return rop.push(
+                 pre.push(
                     (<Menu.Item key={item.key}>
                             <Link to={item.key}>
                                 <Icon type={item.icon}/>
@@ -43,7 +23,12 @@ export default class LeftNav  extends Component {
                         </Menu.Item>)
                 )
             }else{
-                return  rop.push((
+
+              const citem= item.children.find( itemd=>itemd.key===path )
+                if(citem){
+                   this.openKey=item.key
+                }
+                  pre.push((
                     <SubMenu key={item.key} title={<span>
                             <Icon type={item.icon}/>
               <span>{item.title}</span>
@@ -52,6 +37,7 @@ export default class LeftNav  extends Component {
                     </SubMenu>
                 ))
             }
+            return pre
         },[])
 
     }
@@ -59,18 +45,24 @@ export default class LeftNav  extends Component {
         this.menuNodes = this.getMenuNodes(menuConfig)
     }
     render() {
-        return (
+        const path=this.props.location.pathname
+       return (
             <div>
                 <Link to={'/home'} className="left-nav-header">
                     <img src={logo} alt="logo"/>
                     <h1>我的后台</h1>
                 </Link>
-                {
-                    this.getMenuNodes
-                }
-
-
+                <Menu
+                    selectedKeys={[path]}
+                    defaultOpenKeys={[this.openKey]}
+                    mode="inline"
+                    theme="dark"
+                >
+                    {this.menuNodes}
+                </Menu>
             </div>
         )
     }
 }
+
+export default withRouter(LeftNav)

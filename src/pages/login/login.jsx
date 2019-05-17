@@ -15,7 +15,6 @@ class  Login extends Component{
                 const user=result.data
                 if(result.status===0){
                     userdata.user=user
-                    console.log(userdata.user)
                     storageUtils.saveUser(user)
                     this.props.history.replace('/')
                 }else if(result.status===1){

@@ -9,8 +9,8 @@ export default {
         store.set('user_key', user) // 内部会自动转换成json再保存
 
     },
-    getUser(user){
-     return   store.get('user_key', user)||{}
+    getUser(){
+     return   store.get('user_key')||{}
     },
     removeUser(user){
         store.remove('user_key')
