@@ -10,8 +10,38 @@ import ajax from './ajax'
  每个函数的返回值都是promise
  */
 export function reqLogin(username,password) {
-    return ajax('/login',{username,password},'post')
+    return ajax( '/login',{username,password},'post')
 }
+export const  reqClassify=(parentId)=> ajax( '/manage/category/list',{parentId})
+
+
+export const reqaddClassify=(categoryName,parentId)=> ajax('/manage/category/add',{categoryName,parentId},'post')
+
+export const reqUpdateClassify=(categoryId,categoryName)=> ajax('/manage/category/update',{categoryId,categoryName},'post')
+
+//根据ID获取分类
+export const reqClassifys=(categoryId)=>ajax('/manage/category/info',{categoryId})
+
+//获取商品分页数据
+export const reqCommodity=(pageNum, pageSize)=> {
+    return ajax('/manage/product/list',{pageNum,pageSize})
+}
+//获取管理层
+export const reqRoles=()=>{return ajax('/manage/role/list')}
+export const reqAddRole=(roleName)=> ajax('/manage/role/add',{roleName},'post')
+//修改权限
+export const reqUpdateRoles=(role)=>{return ajax('/manage/role/update',role,'post')}
+//获取用户
+export const reqGetUser=()=>ajax('/manage/user/list')
+
+
+export const reqSearchProducts = ({pageNum, pageSize, searchType, searchName}) => ajax('/manage/product/search', {
+    pageNum,
+    pageSize,
+    [searchType]: searchName,
+})
+export const reqUpdates=(productId,status)=>ajax('/manage/product/updateStatus',{productId,status},'post')
+
 export const reqWeather = (city)=> {
     return new Promise((resolve,reject)=>{
         const url = `http://api.map.baidu.com/telematics/v3/weather?location=${city}&output=json&ak=3p49MVra6urFRGOT9s8UBWr2`
@@ -27,3 +57,35 @@ export const reqWeather = (city)=> {
         })
     })
 }
+// export const reqCity = ()=> {
+//     // return new Promise((resolve,reject)=>{
+//         const url = `http://pv.sohu.com/cityjson`
+//     // const url = `http://api.map.baidu.com/telematics/v3/weather?location=北京&output=json&ak=3p49MVra6urFRGOT9s8UBWr2`
+//     console.log(123)
+//     jsonp(url,{},(err,data)=>{
+//         console.log(data)
+//     })
+//         jsonp(url,{},(err,data)=>{
+//             console.log(123)
+//             console.log(data)
+//             if (!err && data.status==='success') {
+//                 // 取出需要的数据
+//                 console.log(data)
+//                 // const {cname} = data
+//                 // resolve({cname})
+//             } else {
+//                 // 如果失败了
+//                 message.error('获取天气信息失败!')
+//             }
+//         })
+//     // })
+// }
+// export function reqCity() {
+//     return ajax('http://pv.sohu.com/cityjson')
+// }
+// async function aa() {
+//     const result  =await reqCity()
+//     console.log(result)
+//
+// }
+// aa()

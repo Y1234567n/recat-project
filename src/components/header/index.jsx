@@ -7,7 +7,7 @@ import {formateDate} from '../../utils/dateUtils'
 import menuConfig from '../../config/menuConfig'
 import {reqWeather} from '../../api'
 import storageUtils from '../../utils/storageUtils'
-import { Modal,Button } from 'antd';
+import { Modal } from 'antd';
 
 const confirm = Modal.confirm;
 
@@ -22,14 +22,20 @@ class Header extends Component{
         this.setState({dayPictureUrl, weather})
     }
     setTime=()=>{
-      this.interval= setInterval(()=>{
-            this.setState({currentTime:formateDate(Date.now())})},
-          1000)}
+        this.intime= setInterval(()=>{
+            this.setState({
+                currentTime:formateDate(Date.now())
+            })
+          },
+          1000)
+
+    }
+
     fun=()=>{
         confirm({
             title: '你是认真的么？',
-            okText:'我是认真的',
-            cancelText:'我一点都不想点这个',
+            okText:'en',
+            cancelText:'我需要认真的想一想，算了，我还是不要退出了',
             onOk:()=>  {
                 userdata.user = {}
                 storageUtils.removeUser('user_key')
@@ -59,8 +65,8 @@ class Header extends Component{
         this.setTime()
         this.getWeather()
     }
-    componentWillUpdate(){
-        clearInterval(this.interval)
+    componentWillUnmount(){
+        clearInterval(this.intime)
 }
 
     render(){
