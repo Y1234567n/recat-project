@@ -114,8 +114,8 @@ export default class Role extends Component {
                     bordered
                     dataSource={roles}
                     pagination={{pageSize:5}}
-                    onRow={this.onRow}
-                    rowSelection={{type:'radio',selectedRowKeys:[role._id]}}
+                     onRow={this.onRow}
+                     rowSelection={{type:'radio',selectedRowKeys:[role._id]}}
                     columns={this.columns}>
                 </Table>
                 <Modal

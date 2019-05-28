@@ -12,10 +12,10 @@ class Adduser extends Component {
     componentWillMount(){
         this.props.setFrom(this.props.form)
     }
-
     render() {
         const { getFieldDecorator } = this.props.form;
         const {roles,user}=this.props
+
         const formItemLayout = {
             labelCol: { span: 6 },
             wrapperCol: { span: 14 },
@@ -58,7 +58,7 @@ class Adduser extends Component {
                 </Form.Item>
 
                 <Form.Item label="管理层">
-                    {getFieldDecorator('user.role_id', {
+                    {getFieldDecorator('role_id', {
                         initialValue:user.role_id,
                     })(<Select>
                         {

@@ -51,7 +51,7 @@ class Header extends Component{
             if(!item.children&&item.key===home){
                 title = item.title
             }else if(item.children){
-         const citem =  item.children.find(citem=>citem.key===home)
+         const citem =  item.children.find(citem=>home.indexOf(citem.key)===0)
                 if(citem){
              title=citem.title
                 }
@@ -72,7 +72,7 @@ class Header extends Component{
     render(){
         const {currentTime, dayPictureUrl, weather} = this.state
         const title = this.findTitle()
-    const user =userdata.user
+        const user =userdata.user
         return <header className="header">
             <div className="header-top" >
                 <span>欢迎, {user.username}</span>

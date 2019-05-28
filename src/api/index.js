@@ -9,14 +9,17 @@ import ajax from './ajax'
  包含应用中所有接口请求函数的模块
  每个函数的返回值都是promise
  */
+//登录
 export function reqLogin(username,password) {
     return ajax( '/login',{username,password},'post')
 }
+//获取分类
 export const  reqClassify=(parentId)=> ajax( '/manage/category/list',{parentId})
 
-
+//添加分类
 export const reqaddClassify=(categoryName,parentId)=> ajax('/manage/category/add',{categoryName,parentId},'post')
 
+//更新修改分类
 export const reqUpdateClassify=(categoryId,categoryName)=> ajax('/manage/category/update',{categoryId,categoryName},'post')
 
 //根据ID获取分类
@@ -28,20 +31,23 @@ export const reqCommodity=(pageNum, pageSize)=> {
 }
 //获取管理层
 export const reqRoles=()=>{return ajax('/manage/role/list')}
+//添加管理层
 export const reqAddRole=(roleName)=> ajax('/manage/role/add',{roleName},'post')
 //修改权限
 export const reqUpdateRoles=(role)=>{return ajax('/manage/role/update',role,'post')}
 //获取用户
 export const reqGetUser=()=>ajax('/manage/user/list')
-
-
+//添加或者修改用户
+export const reqAddUser = (user)=> ajax(`manage/user/${user._id?'update':'add'}`,user,'post')
+//删除用户
+export const reqDeletUser=(userId)=>ajax('/manage/user/delete',{userId},'post')
 export const reqSearchProducts = ({pageNum, pageSize, searchType, searchName}) => ajax('/manage/product/search', {
     pageNum,
     pageSize,
     [searchType]: searchName,
 })
 export const reqUpdates=(productId,status)=>ajax('/manage/product/updateStatus',{productId,status},'post')
-
+//获取天气JSONP请求
 export const reqWeather = (city)=> {
     return new Promise((resolve,reject)=>{
         const url = `http://api.map.baidu.com/telematics/v3/weather?location=${city}&output=json&ak=3p49MVra6urFRGOT9s8UBWr2`
